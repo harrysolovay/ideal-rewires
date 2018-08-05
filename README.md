@@ -4,7 +4,7 @@ ideal-rewires [![npm version](https://img.shields.io/npm/v/ideal-rewires.svg?sty
 > Easily impliment a collection of react-app-rewires to supercharge your CRA app.
 
 ## Features
-* custom [ESLint](https://eslint.org) & [Stylelint](https://stylelint.io)
+* customize [ESLint](https://eslint.org) & [Stylelint](https://stylelint.io)
 * [SVG inlining](https://github.com/airbnb/babel-plugin-inline-react-svg)
 * [module resolution](https://github.com/tleunen/babel-plugin-module-resolver) ("~" resolves to "root/src")
 * [removes need to import React](https://github.com/vslinko/babel-plugin-react-require) ("magic variable") –– compiler automatically includes the import in files that contain JSX
@@ -23,6 +23,8 @@ $ npm install -D ideal-rewires
 ```
 
 ## Usage
+
+#### 1) Make sure you've installed and configured the latest version of [`react-app-rewired`](https://github.com/timarney/react-app-rewired)
 
 #### 1) Go into your `package.json` and add the following:
 ```json
