@@ -1,6 +1,6 @@
 {
   "name": "ideal-rewires",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "useful react-app-rewired config-overrides in a single call",
   "main": "src/index.js",
   "repository": "https://github.com/harrysolovay/ideal-rewires.git",
