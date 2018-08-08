@@ -26,12 +26,21 @@ $ npm install -D ideal-rewires
 
 #### 1) Make sure you've installed and configured the latest version of [`react-app-rewired`](https://github.com/timarney/react-app-rewired)
 
-#### 1) Go into your `package.json` and add the following:
+#### 2) Adjust your configuration:
+
+I've submitted a pull request to [`react-app-rewired`](https://github.com/timarney/react-app-rewired), so soon (hopefully) you'll be able to configure via your `package.json`:
+
 ```json
 "config-overrides-path": "node_modules/ideal-rewires"
 ```
 
-#### 2) Configure `.eslintrc` and `.stylelintrc`:
+For the time-being, create a `config-overrides.js` in your root directory and export `ideal-rewires`:
+
+```js
+module.exports = require('ideal-rewires')
+```
+
+#### 3) Configure `.eslintrc` and `.stylelintrc`:
 
 ESLint & Stylelint dependencies (can use your own if you'd like... but these are the ones I use):
 
@@ -85,9 +94,9 @@ Let's create the `.eslintrc` and `.stylelintrc` files in our project root:
 ```
 
 
-#### 3) If you want a slightly different config, fork this repository and work off of that 👍
+#### 4) If you want a slightly different config, fork this repository and work off of that 👍
 
-#### 4) Start building 🎉
+#### 5) Start building 🎉
 
 
 
