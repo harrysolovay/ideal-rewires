@@ -1,43 +1,58 @@
 ideal-rewires [![npm version](https://img.shields.io/npm/v/ideal-rewires.svg?style=flat)](https://www.npmjs.com/package/ideal-rewires)
 =============================
 
-> Easily impliment a collection of react-app-rewires to supercharge your CRA app.
+> Easily impliment must-have rewires to supercharge your CRA app.
 
 ## Features
-* customize [ESLint](https://eslint.org) & [Stylelint](https://stylelint.io)
-* [SVG inlining](https://github.com/airbnb/babel-plugin-inline-react-svg)
-* [module resolution](https://github.com/tleunen/babel-plugin-module-resolver) ("~" resolves to "root/src")
-* [removes need to import React](https://github.com/vslinko/babel-plugin-react-require) ("magic variable") –– compiler automatically includes the import in files that contain JSX
-* [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) (incase you're using [styled-components](https://github.com/styled-components/styled-components))
-* [tc39 stage-2 decorators](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy) ([proposal](https://github.com/tc39/proposal-decorators))
-* [babel-plugin-idx](https://github.com/facebookincubator/idx#readme)
-* [removes console logs, warns and errors](https://github.com/babel/minify/tree/master/packages/babel-plugin-transform-remove-console) in production
+* use .babelrc
+* use .eslint
+* use .stylelint
+* main bundle inlining
+* image compression
+* lighthouse-friendly manifest generation
+* minification whitelisting
 
 ## Installation
 
 ```sh
-# with yarn:
-$ yarn add -D ideal-rewires
 # with npm
 $ npm install -D ideal-rewires
 ```
 
 ## Usage
 
-#### 1) Make sure you've installed and configured the latest version of [`react-app-rewired`](https://github.com/timarney/react-app-rewired)
+#### 1) Make sure you've installed the latest version of [`react-app-rewired`](https://github.com/timarney/react-app-rewired)
 
-#### 2) Adjust your configuration:
-
-I've submitted a pull request to [`react-app-rewired`](https://github.com/timarney/react-app-rewired), so soon (hopefully) you'll be able to configure via your `package.json`:
-
-```json
-"config-overrides-path": "node_modules/ideal-rewires"
-```
-
-For the time-being, create a `config-overrides.js` in your root directory and export `ideal-rewires`:
+#### 2) Create a `config-overrides.js` file in your root director:
 
 ```js
-module.exports = require('ideal-rewires')
+const rewire = require('ideal-rewires').default
+
+module.exports = rewire({
+  babelrc: true,
+  eslintrc: true,
+  stylelintrc: true,
+  appMeta: {
+    name: 'ideal rewires demo',
+    nickname: 'demo',
+    description: 'testing out ideal rewires',
+    icon: './src/assets/images/icon.png',
+    iconBackgroundColor: '#fff',
+    themeColor: '#fff',
+  },
+  devServerHeaders: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, PATCH, OPTIONS',
+    'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
+  },
+  whitelist: [
+    'bitcoinjs-lib',
+    'tiny-secp256k1/ecurve',
+    'base64url/dist/base64url',
+    'base64url/dist/pad-string',
+    'bip32',
+  ].map(module => `node_modules/${module}`),
+})
 ```
 
 #### 3) Configure `.eslintrc` and `.stylelintrc`:

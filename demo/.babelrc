@@ -1,0 +1,19 @@
+{
+  "presets": [
+    "react",
+    "env"
+  ],
+  "plugins": [
+    "react-require",
+    ["module-resolver", {
+      "root": ".", 
+      "alias": {
+        "~": "./src"
+      }
+    }],
+    "inline-react-svg",
+    "transform-object-rest-spread",
+    "styled-components",
+    "react-hot-loader/babel"
+  ]
+}

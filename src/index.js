@@ -1,40 +1,130 @@
-const { injectBabelPlugin } = require('react-app-rewired')
-const rewireEslint = require('./rewireEslint')
-const rewireStylelint = require('./rewireStylelint')
-//const rewireMdx = require('./rewireMdx')
+import {
+  getBabelLoader
+} from 'react-app-rewired'
 
-module.exports = (config, env) => {
+import {
+  createLoaderMatcher,
+  findRule,
+  addBeforeRule,
+  existsInRoot,
+  whitelist,
+} from './utilities'
 
-    // use .eslintrc
-    config = rewireEslint(config, env)
-    // use .stylelintrc
-    config = rewireStylelint(config, env)
+const InlineSourcePlugin = require('html-webpack-inline-source-plugin')
+const WebpackPWAManifestPlugin = require('webpack-pwa-manifest')
+const ImageminPlugin = require('imagemin-webpack-plugin').default
 
-    // resolve src with tilda "~"
-    config = injectBabelPlugin([ 'module-resolver', {
-      'root': '../',
-      'alias': {
-        '~': './src'
+export default (options) => ({
+
+  webpack: (config, env) => {
+
+    const babelLoader = getBabelLoader(config.module.rules)
+
+    if(options.babelrc && existsInRoot('.babelrc')) {
+      
+      if(!babelLoader)
+        throw new Error('Babel config error')
+      
+      babelLoader.options.babelrc = true
+
+      console.log('babelrc')
+    }
+
+    if(options.eslintrc && existsInRoot('.eslintrc')) {
+
+      const eslintLoaderMatcher = createLoaderMatcher('eslint-loader')
+
+      const rule = findRule(
+        config.module.rules,
+        eslintLoaderMatcher,
+      )
+
+      if(!rule)
+        throw new Error('ESLint config error')
+
+      delete rule.options.baseConfig
+      rule.options.useEslintrc = true
+
+      if(options.stylelintrc && existsInRoot('.stylelintrc')) {
+
+        console.log('stylelintrc')
+
+        const stylelintRules = {
+          loader: 'stylelint-custom-processor-loader',
+          options: {
+            configPath: null,
+            emitWarning: true,
+          },
+        }
+
+        addBeforeRule(
+          config.module.rules,
+          eslintLoaderMatcher,
+          stylelintRules
+        )
+
       }
-    }], config)
-    // prevent having to import "React" – overcome magic variable pattern
-    config = injectBabelPlugin('react-require', config)
-    // enable use of experimental feature "decorators" (stage 2 in tc39)
-    config = injectBabelPlugin('transform-decorators-legacy', config)
-    // precompile idx calls into deeply-nested existence checks
-    config = injectBabelPlugin('babel-plugin-idx', config)
-    // we're using CSSinJS and need babel-plugin-styled-components for linting & optimization
-    config = injectBabelPlugin('babel-plugin-styled-components', config)
-    // inlining SVGs = faster load (to be included in create-react-app@2.0)
-    config = injectBabelPlugin('inline-react-svg', config)
-    // enable loading of MD and MDX files
-    // config = rewireMdx(config)
+
+      console.log('eslintrc')
+
+    }
 
     if(env === 'production') {
-      // strip away console logs in productionn
-      config = injectBabelPlugin('transform-remove-console', config)
+
+      config.plugins.forEach((plugin) => {
+        if(plugin.options && plugin.options.template) {
+          plugin.options.inlineSource = 'main.*.js'
+        }
+      })
+
+      const manfiestPluginInstance = []
+      if(options.appMeta && options.appMeta.icon) {
+        manfiestPluginInstance.push(
+          new WebpackPWAManifestPlugin({
+            filename: 'manifest.json',
+            start_url: '.',
+            name: options.appMeta.name || '',
+            short_name: options.appMeta.nickname || '',
+            description: options.appMeta.description || '',
+            background_color: options.appMeta.iconBackgroundColor || '#fff',
+            theme_color: options.appMeta.themeColor || '#fff',
+            crossorigin: 'anonymous',
+            includeDirectory: true,
+            icons: [{
+              src: options.appMeta.icon,
+              sizes: [ 72, 96, 128, 144, 192, 256, 384, 512 ],
+            }],
+            ios: true,
+            inject: true,
+          }),
+        )
+      }
+
+      config.plugins = (config.plugins || [])
+        .concat([ new InlineSourcePlugin() ])
+        .concat(manfiestPluginInstance)
+        .concat([
+          new ImageminPlugin({
+            test: /\.(jpe?g|png|gif|svg)$/i,
+          }),
+        ])
+
+        if(options.whitelist) {
+          whitelist(babelLoader, options.whitelist)
+        }
+
     }
 
     return config
 
-}
+  },
+
+  devServer: (configFunction) => (proxy, allowedHost) => {
+    const config = configFunction(proxy, allowedHost)
+    if(options.devServerHeaders) {
+      config.headers = options.devServerHeaders
+    }
+    return config
+  }
+
+})
