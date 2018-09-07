@@ -4,13 +4,14 @@ ideal-rewires [![npm version](https://img.shields.io/npm/v/ideal-rewires.svg?sty
 > Easily impliment must-have rewires to supercharge your CRA app.
 
 ## Features
-* use .babelrc
-* use .eslint
-* use .stylelint
-* main bundle inlining
-* image compression
-* lighthouse-friendly manifest generation
-* minification whitelisting
+* customize via
+	* `.babelrc`
+	* `.eslintrc`
+	* `.stylelintrc`
+* inlining of your main bundle (code-splitting friendly)
+* standard image compression
+* lighthouse-oriented manifest generation
+* whitelist un-precompiled libs (avoid nasty minification errors)
 
 ## Installation
 
@@ -21,30 +22,65 @@ $ npm install -D ideal-rewires
 
 ## Usage
 
-#### 1) Make sure you've installed the latest version of [`react-app-rewired`](https://github.com/timarney/react-app-rewired)
+#### Make sure you've also installed the latest version of [`react-app-rewired`](https://github.com/timarney/react-app-rewired)
 
-#### 2) Create a `config-overrides.js` file in your root director:
+#### Create a `config-overrides.js` file in your root director:
+
+```js
+const rewire = require('ideal-rewires').default
+
+// in this instance, all we want is to use a `.babelrc` file
+const options = { babelrc: true }
+module.exports = rewire(options)
+```
+
+## All Options
+
+#### `options`
+The object that you pass to rewire()
+
+##### `options.babelrc`
+Whether to look for & (if present) use a `.babelrc` file
+
+##### `options.eslintrc`
+Whether to look for & (if present) use a `.eslintrc` file
+
+##### `options.stylelintrc`
+Whether to look for & (if present) use a `.stylelintrc` file
+
+##### `options.appMeta`
+Used to generate the `manifest.json` on build
+
+###### `options.appMeta.name`
+
+###### `options.appMeta.nickname`
+
+###### `options.appMeta.description`
+
+###### `options.appMeta.icon` (url of 512 x 512 icon asset)
+
+###### `options.appMeta.iconBackgroundColor`
+
+###### `options.appMeta.themeColor`
+
+##### `options.devServerHeaders`
+Customize dev server headers (for instance, if you use an authentication API that requests your app's manifest)
+
+##### `options.whitelist`
+Whitelist un-precompiled libraries for compilation and avoid the following error (documented [here](https://github.com/facebook/create-react-app/issues/3734)):
+
+```sh
+Failed to minify the code from this file
+```
+
+This can be particularly helpful if you're directly or indirectly using the bitcoinjs-lib. Here's an example of this option's usage:
+
+`config-overrides.js`
 
 ```js
 const rewire = require('ideal-rewires').default
 
 module.exports = rewire({
-  babelrc: true,
-  eslintrc: true,
-  stylelintrc: true,
-  appMeta: {
-    name: 'ideal rewires demo',
-    nickname: 'demo',
-    description: 'testing out ideal rewires',
-    icon: './src/assets/images/icon.png',
-    iconBackgroundColor: '#fff',
-    themeColor: '#fff',
-  },
-  devServerHeaders: {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, PATCH, OPTIONS',
-    'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
-  },
   whitelist: [
     'bitcoinjs-lib',
     'tiny-secp256k1/ecurve',
@@ -55,64 +91,6 @@ module.exports = rewire({
 })
 ```
 
-#### 3) Configure `.eslintrc` and `.stylelintrc`:
-
-ESLint & Stylelint dependencies (can use your own if you'd like... but these are the ones I use):
-
-```sh
-# with yarn:
-$ yarn add -D eslint-config-react-app eslint-plugin-react stylelint-config-recommended stylelint-config-styled-components stylelint-processor-styled-components
-```
-
-Let's create the `.eslintrc` and `.stylelintrc` files in our project root:
-
-`.eslintrc`:
-
-```json
-{
-  "env": {
-    "browser": true,
-    "es6": true,
-    "jest": true,
-    "node": true
-  },
-  "extends": [
-    "react-app"
-  ],
-  "plugins": [
-    "react"
-  ],
-  "rules": {
-    "react/no-children-prop": 0,
-    "react/prop-types": 0,
-    "no-console": 0,
-    "react/jsx-key": 0,
-    "react/display-name": 0,
-    "jsx-a11y/anchor-has-content": 0,
-    "react/react-in-jsx-scope": 0
-  }
-}
-```
-
-`.stylelintrc`:
-
-```json
-{
-  "processors": [
-    "stylelint-processor-styled-components"
-  ],
-  "extends": [
-    "stylelint-config-recommended",
-    "stylelint-config-styled-components"
-  ]
-}
-```
-
-
-#### 4) If you want a slightly different config, fork this repository and work off of that 👍
-
-#### 5) Start building 🎉
-
-
+#### If you want a slightly different config, fork this repository and work off of that 👍 🎉
 
 ###### This library has been released under the [MIT license](https://mit-license.org/)
