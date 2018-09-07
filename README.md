@@ -1,7 +1,7 @@
 ideal-rewires [![npm version](https://img.shields.io/npm/v/ideal-rewires.svg?style=flat)](https://www.npmjs.com/package/ideal-rewires)
 =============================
 
-> Easily impliment must-have rewires to supercharge your CRA-based project.
+> easily impliment must-have rewires to supercharge your CRA-based project
 
 ## Features
 * customize via
