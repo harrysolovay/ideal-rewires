@@ -1,6 +1,6 @@
 {
   "name": "ideal-rewires",
-  "description": "Easily impliment a collection of rewires to supercharge your CRA app",
+  "description": "Easily impliment a collection of rewires to supercharge your CRA-based project",
   "author": "Harry Solovay <harrysolovay@gmail.com> (harrysolovay.com)",
   "private": false,
   "version": "1.1.2",
