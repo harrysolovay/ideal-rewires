@@ -11,7 +11,7 @@ ideal-rewires [![npm version](https://img.shields.io/npm/v/ideal-rewires.svg?sty
 * inlining of your main bundle (code-splitting friendly)
 * standard image compression
 * lighthouse-oriented manifest generation
-* whitelist un-precompiled libs (avoid nasty minification errors)
+* whitelist un-precompiled libs (avoid [nasty minification errors](https://github.com/facebook/create-react-app/issues/3734))
 
 ## Installation
 
