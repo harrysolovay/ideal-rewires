@@ -57,7 +57,7 @@ Used to generate the `manifest.json` on build
 
 ###### `options.appMeta.description`
 
-###### `options.appMeta.icon` (url of 512 x 512 icon asset)
+###### `options.appMeta.icon` (path to 512 x 512 icon asset)
 
 ###### `options.appMeta.iconBackgroundColor`
 
