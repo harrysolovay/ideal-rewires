@@ -4,6 +4,7 @@ module.exports = rewire({
   babelrc: true,
   eslintrc: true,
   stylelintrc: true,
+  lessModules: true,
   appMeta: {
     name: 'ideal rewires demo',
     nickname: 'demo',

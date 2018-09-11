@@ -4,6 +4,8 @@ import ReactLogo from '~/assets/images/logo.svg'
 import { render } from 'react-dom'
 import { registerServiceWorker } from '~/utilities'
 import { redirectToSignIn } from 'blockstack'
+import './index.less'
+import styleIndex from './index.module.less'
 
 class App extends Component {
 
@@ -15,7 +17,7 @@ class App extends Component {
             className='logo'
           />
           <h1
-            className='title'
+            className={styleIndex.title}
             children='Welcome to React'
           />
         </header>
