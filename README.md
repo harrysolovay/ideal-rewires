@@ -12,6 +12,7 @@ ideal-rewires [![npm version](https://img.shields.io/npm/v/ideal-rewires.svg?sty
 * standard image compression
 * lighthouse-oriented manifest generation
 * whitelist un-precompiled libs (avoid [nasty minification errors](https://github.com/facebook/create-react-app/issues/3734))
+* Less and Less module support ([react-app-rewire-less-modules](https://github.com/andriijas/react-app-rewire-less-modules))
 
 ## Installation
 
@@ -47,6 +48,9 @@ Whether to look for & (if present) use a `.eslintrc` file
 
 ##### `options.stylelintrc`
 Whether to look for & (if present) use a `.stylelintrc` file
+
+##### `options.lessModules`
+Add Less and Less module support
 
 ##### `options.appMeta`
 Used to generate the `manifest.json` on build
