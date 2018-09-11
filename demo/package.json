@@ -33,7 +33,7 @@
     "eslint-config-react-app": "^2.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-react": "^7.11.1",
-    "ideal-rewires": "^1.1.2",
+    "ideal-rewires": "file:../",
     "react-app-rewired": "^1.6.2",
     "stylelint": "^9.5.0",
     "stylelint-config-recommended": "^2.1.0",
