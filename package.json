@@ -3,7 +3,7 @@
   "description": "easily impliment must-have rewires to supercharge your CRA-based project",
   "author": "Harry Solovay <harrysolovay@gmail.com> (harrysolovay.com)",
   "private": false,
-  "version": "1.1.2",
+  "version": "1.1.3",
   "license": "MIT",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -39,9 +39,11 @@
   "dependencies": {
     "html-webpack-inline-source-plugin": "^0.0.10",
     "imagemin-webpack-plugin": "^2.2.0",
-    "react-app-rewired": "^1.6.2",
-    "react-scripts": "^1.1.5",
     "stylelint-custom-processor-loader": "^0.5.0",
     "webpack-pwa-manifest": "^3.7.1"
+  },
+  "peerDependencies": {
+    "react-app-rewired": "^1.6.2",
+    "react-scripts": "1.0.14"
   }
 }

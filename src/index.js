@@ -26,8 +26,6 @@ export default (options) => ({
         throw new Error('Babel config error')
       
       babelLoader.options.babelrc = true
-
-      console.log('babelrc')
     }
 
     if(options.eslintrc && existsInRoot('.eslintrc')) {
@@ -47,8 +45,6 @@ export default (options) => ({
 
       if(options.stylelintrc && existsInRoot('.stylelintrc')) {
 
-        console.log('stylelintrc')
-
         const stylelintRules = {
           loader: 'stylelint-custom-processor-loader',
           options: {
@@ -64,8 +60,6 @@ export default (options) => ({
         )
 
       }
-
-      console.log('eslintrc')
 
     }
 
